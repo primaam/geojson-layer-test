@@ -1,13 +1,12 @@
-import React, { useState, useRef } from "react";
-import ReactDOM from "react-dom";
+import React, { useState, useRef, HTMLInputTypeAttribute } from "react";
 import styles from "./HomePage.module.css";
 import { MapContainer, TileLayer, GeoJSON, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { LocationInformationCard, PopupMarkerCard } from "@/components/custom";
-import { LayerController } from "@/feature";
+import { LocationInformationCard, ModalForm } from "@/components/custom";
+import { LayerController, DoubleClickController } from "@/feature";
 import { firstPrioData, secondPrioData, thirdPrioData } from "@/data/layerData";
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { LocTypeData } from "@/data/locTypeData";
 import {
     busIcon,
     hospitalIcon,
@@ -27,6 +26,8 @@ interface LocData {
     type: string;
     name: string;
     typeName: string;
+    lat: number | null;
+    lng: number | null;
 }
 
 const initialState: LayerPriority = {
@@ -35,17 +36,69 @@ const initialState: LayerPriority = {
     third: false,
 };
 
+const initialLocData: LocData = {
+    type: "",
+    name: "",
+    typeName: "",
+    lat: null,
+    lng: null,
+};
+
 const HomePage: React.FC = () => {
     const [showLayerPriority, setShowLayerPriority] = useState(initialState);
     const [showLocData, setShowLocData] = useState<boolean>(false);
-    const [locData, setLocData] = useState<LocData>({
-        type: "",
-        name: "",
-        typeName: "",
-    });
+    const [showModalForm, setShowModalForm] = useState<boolean>(false);
+    const [isEdit, setIsEdit] = useState<boolean>(false);
+    const [locData, setLocData] = useState<LocData>(initialLocData);
+
+    const handleOpenModal = (e: "edit" | "add") => {
+        switch (e) {
+            case "add":
+                setShowModalForm(true);
+                setShowLocData(false);
+                break;
+            case "edit":
+                setIsEdit(true);
+                setShowModalForm(true);
+                break;
+            default:
+                break;
+        }
+    };
+
+    const handleCloseModal = () => {
+        setShowModalForm(false);
+        setIsEdit(false);
+        setShowLocData(false);
+        setLocData(initialLocData);
+    };
+
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.currentTarget.value;
+
+        setLocData({
+            ...locData,
+            name: value,
+        });
+    };
+
+    const handleOnSelect = (e: string) => {
+        const filtered = LocTypeData.find((item) => {
+            return item.value === e;
+        });
+
+        if (filtered) {
+            setLocData({
+                ...locData,
+                type: e,
+                typeName: filtered.locTypeName,
+            });
+        }
+    };
 
     const onEachFeature = (feature: any, layer: any) => {
         const { type, name, typeName } = feature.properties;
+        const { coordinates } = feature.geometry;
 
         layer.on("click", () => {
             setShowLocData(true);
@@ -53,6 +106,8 @@ const HomePage: React.FC = () => {
                 name,
                 type,
                 typeName,
+                lat: coordinates[1],
+                lng: coordinates[0],
             });
         });
     };
@@ -85,6 +140,7 @@ const HomePage: React.FC = () => {
 
         return L.marker(latlng, { icon });
     };
+
     return (
         <div className={styles.container}>
             <div className={styles.mainContainer}>
@@ -92,9 +148,10 @@ const HomePage: React.FC = () => {
 
                 <MapContainer
                     className={styles.map}
-                    center={[-6.182891341340644, 106.84018211388339]}
+                    center={[-6.170607742004966, 106.84422165155412]}
                     zoom={15}
                     scrollWheelZoom={false}
+                    doubleClickZoom={false}
                 >
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -122,16 +179,28 @@ const HomePage: React.FC = () => {
                         />
                     )}
 
-                    <LayerController setShowPriority={setShowLayerPriority} />
                     {showLocData && (
                         <LocationInformationCard
                             onClose={() => setShowLocData(false)}
                             name={locData.name}
                             type={locData.typeName}
-                            onEditClick={() => console.log("edit")}
+                            onEditClick={() => handleOpenModal("edit")}
                         />
                     )}
+                    <LayerController setShowPriority={setShowLayerPriority} />
+                    <DoubleClickController
+                        setFormData={setLocData}
+                        setShowModalForm={() => handleOpenModal("add")}
+                    />
                 </MapContainer>
+                <ModalForm
+                    onChange={handleOnChange}
+                    locData={locData}
+                    isEdit={isEdit}
+                    onSelect={handleOnSelect}
+                    onClose={handleCloseModal}
+                    isShown={showModalForm}
+                />
             </div>
         </div>
     );
