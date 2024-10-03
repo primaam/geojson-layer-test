@@ -4,10 +4,18 @@ import styles from "./HomePage.module.css";
 import { MapContainer, TileLayer, GeoJSON, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { PopupMarkerCard } from "@/components/custom";
+import { LocationInformationCard, PopupMarkerCard } from "@/components/custom";
 import { LayerController } from "@/feature";
 import { firstPrioData, secondPrioData, thirdPrioData } from "@/data/layerData";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+    busIcon,
+    hospitalIcon,
+    parkIcon,
+    schoolIcon,
+    storeIcon,
+    trainIcon,
+} from "@/components/custom/Icon/Icon";
 
 interface LayerPriority {
     first: boolean;
@@ -48,6 +56,35 @@ const HomePage: React.FC = () => {
             });
         });
     };
+
+    const pointToLayer = (feature: any, latlng: any) => {
+        let icon;
+        switch (feature.properties.type) {
+            case "hospital":
+                icon = hospitalIcon;
+                break;
+            case "mall":
+                icon = storeIcon;
+                break;
+            case "school":
+                icon = schoolIcon;
+                break;
+            case "trainSt":
+                icon = trainIcon;
+                break;
+            case "busSt":
+                icon = busIcon;
+                break;
+            case "park":
+                icon = parkIcon;
+                break;
+            default:
+                icon = storeIcon;
+                break;
+        }
+
+        return L.marker(latlng, { icon });
+    };
     return (
         <div className={styles.container}>
             <div className={styles.mainContainer}>
@@ -64,46 +101,35 @@ const HomePage: React.FC = () => {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                     {showLayerPriority.first && (
-                        <GeoJSON onEachFeature={onEachFeature} data={firstPrioData} />
+                        <GeoJSON
+                            onEachFeature={onEachFeature}
+                            data={firstPrioData}
+                            pointToLayer={pointToLayer}
+                        />
                     )}
                     {showLayerPriority.second && (
-                        <GeoJSON onEachFeature={onEachFeature} data={secondPrioData} />
+                        <GeoJSON
+                            onEachFeature={onEachFeature}
+                            data={secondPrioData}
+                            pointToLayer={pointToLayer}
+                        />
                     )}
                     {showLayerPriority.third && (
-                        <GeoJSON onEachFeature={onEachFeature} data={thirdPrioData} />
+                        <GeoJSON
+                            onEachFeature={onEachFeature}
+                            data={thirdPrioData}
+                            pointToLayer={pointToLayer}
+                        />
                     )}
 
                     <LayerController setShowPriority={setShowLayerPriority} />
                     {showLocData && (
-                        <Card
-                            onClick={() => setShowLocData(false)}
-                            style={{
-                                cursor: "pointer",
-                                position: "absolute",
-                                zIndex: 1000,
-                                bottom: 20,
-                                left: 10,
-                                width: "100%",
-                                maxWidth: "300px",
-                                height: "80px",
-                                // textAlign: "center",
-                                borderRadius: 10,
-                                backgroundColor: "white",
-                                color: "grey",
-                                // placeItems: "center",
-                                display: "flex",
-                                justifyContent: "center",
-                            }}
-                        >
-                            <CardHeader>
-                                <CardTitle>
-                                    <a>X</a>
-                                </CardTitle>
-                                <CardDescription>
-                                    {locData.typeName} {locData.name}
-                                </CardDescription>
-                            </CardHeader>
-                        </Card>
+                        <LocationInformationCard
+                            onClose={() => setShowLocData(false)}
+                            name={locData.name}
+                            type={locData.typeName}
+                            onEditClick={() => console.log("edit")}
+                        />
                     )}
                 </MapContainer>
             </div>

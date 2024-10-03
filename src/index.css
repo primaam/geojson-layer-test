@@ -76,3 +76,8 @@ button:focus-visible {
     --radius: 0.5rem;
   }
 }
+
+.map-icon{
+  background-color: white;
+  border-radius: 5px;
+}

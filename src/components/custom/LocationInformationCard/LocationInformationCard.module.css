@@ -1,0 +1,43 @@
+.container{
+    cursor: pointer;
+    position: absolute;
+    z-index: 1000;
+    /* bottom: 20;
+    left: 10; */
+    width: 100%;
+    max-width: 300px;
+    height: 60px;
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    display: flex;
+    justify-content: center;
+}
+
+.mainContainer{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 0 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.button{
+    background-color: white;
+    border: white;
+}
+
+.description{
+    font-size: small;
+    flex: 1;
+    height: 100%;
+    background-color: white;
+    text-align: left;
+    border: white;
+}
+
+.iconButton{
+    width: 20px;
+    height: 20px;
+}
