@@ -69,3 +69,23 @@ Before running the project, ensure that you have the following installed on your
     ```
     http://localhost:5173
     ```
+
+## Usage
+
+### Add Location
+
+1. Open the map.
+2. **Double-click** on the map where you want to place a new location.
+3. A modal will appear. Fill in the necessary details such as the location name, type, and coordinates.
+4. Click **Submit** to add the location. The new location will be displayed on the map.
+
+### Update Location
+
+1. Select the **Update Location** tab.
+2. In the form, update the details of an existing location.
+3. Click **Update** to save the changes.
+
+### Delete Location
+
+1. In the **Update Location** tab, locate the location you want to delete.
+2. Click **Delete** to remove the location from the map.
