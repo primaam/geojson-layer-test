@@ -79,16 +79,23 @@ Before running the project, ensure that you have the following installed on your
 1. Open the map.
 2. **Double-click** on the map where you want to place a new location.
 3. A modal will appear. Fill in the necessary details
-   ![add-form](public/documentation/add-form.png)
+
+    ![add-form](public/documentation/add-form.png)
+
 4. Click **Submit** to add the location. The new location will be displayed on the map.
-   ![add-done](public/documentation/add-done.png)
+
+    ![add-done](public/documentation/add-done.png)
 
 ### Update Location
 
 1. Select the Information Card **Settings Icon** at left-bottom map.
-   ![location-information](public/documentation/location-information.png)
+
+    ![location-information](public/documentation/location-information.png)
+
 2. In the form, update the details of an existing location.
-   ![update](public/documentation/update.png)
+
+    ![update](public/documentation/update.png)
+
 3. Click **Submit** to save the changes.
 
 ### Delete Location
