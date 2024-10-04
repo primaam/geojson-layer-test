@@ -5,8 +5,8 @@ interface FormDataProps {
     name: string;
     type: string;
     typeName: string;
-    lat: number | null;
-    lng: number | null;
+    lat: number;
+    lng: number;
 }
 
 const DoubleClickController: React.FC<{

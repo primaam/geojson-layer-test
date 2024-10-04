@@ -1,10 +1,4 @@
-
-interface LocType{
-    locTypeName: 
-        "Hospital" | "School" | "Bus Station" | "Train Station" | "Park" | "Mall";
-    value: 
-        "hospital" | "school" | "busSt" | "trainSt" | "park" | "mall"
-}
+import { LocType } from "@/types/Map";
 
 const LocTypeData: LocType[] =[
     {

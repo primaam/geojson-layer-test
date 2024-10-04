@@ -22,8 +22,9 @@ interface LocData {
 interface ModalFormProps {
     isShown: boolean;
     isEdit: boolean;
-    // onDelete: () => void;
-    // onSubmit: () => void;
+    onDelete: () => void;
+    onSubmit: () => void;
+    onEditSubmit: () => void;
     onSelect: (e: string) => void;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     locData: LocData;
@@ -37,6 +38,9 @@ const ModalForm: React.FC<ModalFormProps> = ({
     locData,
     onChange,
     onSelect,
+    onDelete,
+    onSubmit,
+    onEditSubmit,
 }) => {
     if (isShown === false) return null;
 
@@ -92,10 +96,16 @@ const ModalForm: React.FC<ModalFormProps> = ({
                             <Button
                                 className={`${styles.button} ${styles.delete}`}
                                 variant={"secondary"}
+                                onClick={onDelete}
                             >
                                 Delete
                             </Button>
-                            <Button className={`${styles.button} ${styles.submit}`}>Submit</Button>
+                            <Button
+                                onClick={onEditSubmit}
+                                className={`${styles.button} ${styles.submit}`}
+                            >
+                                Submit
+                            </Button>
                         </>
                     ) : (
                         <>
@@ -106,7 +116,12 @@ const ModalForm: React.FC<ModalFormProps> = ({
                             >
                                 Cancel
                             </Button>
-                            <Button className={`${styles.button} ${styles.submit}`}>Submit</Button>
+                            <Button
+                                onClick={onSubmit}
+                                className={`${styles.button} ${styles.submit}`}
+                            >
+                                Submit
+                            </Button>
                         </>
                     )}
                 </CardFooter>
