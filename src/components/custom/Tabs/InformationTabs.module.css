@@ -10,7 +10,8 @@
 }
 
 .tabsContent{
-    padding: 10px 0;
+    padding: 10px;
+    text-align: justify;
 }
 
 .tabsContent h2{
