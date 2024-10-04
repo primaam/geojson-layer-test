@@ -1,3 +1,5 @@
+![start](public/documentation/gif.gif)
+
 # GeoJSON Layer Test
 
 This project is a **GeoJSON Layer Test** application built with Vite, React, shadcn/ui, TypeScript, and Redux. It allows users to add, update, and delete locations on a map, where the location data is managed using Redux. The project also includes instructions for interacting with the map through an intuitive user interface.
