@@ -1,0 +1,19 @@
+.tabsContainer{
+    background-color: grey;
+    width: 350px;
+    display: flex;
+    gap: 10px;
+    padding: 5px;
+    justify-content: center;
+    border-radius: 10px;
+    margin: 10px 0;
+}
+
+.tabsContent{
+    padding: 10px 0;
+}
+
+.tabsContent h2{
+    margin-bottom: 10px;
+    font-size: larger;
+}

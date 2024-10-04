@@ -5,7 +5,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { LocationInformationCard, ModalForm } from "@/components/custom";
+import { InformationTabs, LocationInformationCard, ModalForm } from "@/components/custom";
 import { LayerController, DoubleClickController } from "@/feature";
 import {
     busIcon,
@@ -220,6 +220,7 @@ const HomePage: React.FC = () => {
                     />
                 </MapContainer>
                 <h2>Information</h2>
+                <InformationTabs />
                 <ModalForm
                     onDelete={handleOnDelete}
                     onChange={handleOnChange}
